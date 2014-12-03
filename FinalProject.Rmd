@@ -1,0 +1,86 @@
+---
+title: "FinalProject"
+author: "Jannelle Legg"
+date: "November 15, 2014"
+output: html_document
+---
+
+```{r}
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(rgdal)
+library(ggmap)
+
+rawData <- read.csv("/Users/JannelleLegg/Clio3/FInalProject/MissionServices.csv", stringsAsFactors = FALSE)
+#rawData
+
+cleanedData <- rawData %>%
+  tbl_df() %>%
+  select(year = Year,
+         facility = Facility,
+         location = City,
+         frequency = Services.Held,
+         churchClergy = permanent.clergy,
+         CMDMClergy = CMDM.clergy,
+         notes = notes)
+
+```
+
+Now that my data is pulled in and organized a bit, need to grab the geocode data using the ggmap library. To do that I need to pull out the city names, create a new frame with the new data and then bind the data back.
+
+```{r}
+locations <- cleanedData %>%
+  tbl_df() %>%
+  select(location)
+
+locations_geocoded <- geocode(locations$location)
+#locations_geocoded
+
+locations <- cbind(locations, locations_geocoded)
+
+cleanedData <- cbind(cleanedData, locations_geocoded)
+
+#cleanedData
+
+```
+
+Now I have a chart that provides information on the year, location, frequency (sort of), and clergy for the Church Mission to Deaf-Mutes between 1873 and 1879.
+
+```{r}
+write.csv(cleanedData, file="cleanCMDM1.csv", row.names=FALSE)
+```
+
+Now to produce the same process on the school data:
+```{r}
+rawSchools <- read.csv("/Users/JannelleLegg/Clio3/FInalProject/Schools.csv", stringsAsFactors = FALSE)
+
+
+cleanedSchools <- rawSchools %>%
+  tbl_df() %>%
+  select(school = School,
+         location = Location,
+         founded = Year.Founded)
+
+```
+
+```{r}
+locationSchools <- cleanedSchools %>%
+  tbl_df() %>%
+  select(location)
+
+locationSchools_geocoded <- geocode(locationSchools$location)
+#locationSchools_geocoded
+
+locationSchools <- cbind(locationSchools, locationSchools_geocoded)
+
+cleanedSchools <- cbind(cleanedSchools, locationSchools_geocoded)
+
+#cleanedSchools
+```
+
+```{r}
+write.csv(cleanedSchools, file="cleanSchools.csv", row.names=FALSE)
+```
+

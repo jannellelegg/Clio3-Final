@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Church Mission to Deaf-Mutes, 1873-1879</title>
+
+
+<head>
+  <link href='http://fonts.googleapis.com/css?family=Niconne|Poiret+One|Goudy+Bookletter+1911' rel='stylesheet' type='text/css'>
+  <link href="finalbroken.css" rel="stylesheet" type="text/css" />
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="http://d3js.org/topojson.v1.min.js" charset="utf-8"></script>
+  <script src="http://d3js.org/queue.v1.min.js"></script>
+
+<!-- scripts for slider -->
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="d3.slider.js"></script>
+
+</head>
+
+<body>
+
+<div id="wrapper" class="container_12">
+
+<!-- this is the header  -->
+  
+  <div id= "headerimage" class="grid_2"><img src="images/ChurchMission.png" width="150" height="213" alt="Symbol of the Church Mission to Deaf-Mutes"/></div>
+
+  <div id="header" class="grid_10">
+    <h2>The Church Mission to Deaf-Mutes, 1873-1879</h2>
+  </div>
+ 
+<!-- this is the map visualization -->
+
+  <div id="tooltip" class="hidden">
+      <h4><span id="mission-label"></span></h4></div>
+  <div class="grid_9" id="map" align="center"> </div>
+
+<!-- this is the structure for the slider -->
+
+  <div class="grid_9" id="slider">
+    <h3>Year: <span id="slider3text">1873</span></h3> 
+    <div id="slider3"></div>
+    </div>
+
+<!-- this is the body text -->
+
+  <div class="grid_10" id="bodytext">
+    <p>In 1872, the Church Mission to Deaf-Mutes, an Episcopal organization, was founded to expand “ministry to the deaf of other cities.”<sup><a href="#fn1text" class="note">1</a></sup> <a name="fn1ref" id="fn1ref"></a> The mission society grew out of the ministerial efforts of Rev. Thomas Gallaudet at St. Ann’s Church for Deaf-Mutes in New York City and as the organization grew, the missionary efforts were expanded to include deaf populations further afield and created leadership opportunities for deaf clergymen. As members of the Mission, these missionaries aimed to “...to increase the number of religious services for the deaf and dumb throughout the country; to relieve deaf- mutes who are in sickness or trouble; to find work for those who are out of employment, and especially to provide a home for the aged and infirm.”<sup><a href="#fn2text" class="note">2</a></sup> <a name="fn2ref" id="fn2ref"></a> The activities of the Mission led to the founding of the Conference on Church Work Among the Deaf, an organization that was active in the United States as recently as 1996.</p>
+
+    <p>Even more descriptive text.</p>
+  </div>
+
+<!-- this is the footnotes  -->
+
+  <div id= "footnotes" class="grid_11">
+
+    <hr width="800" align="center" size="2"/>
+
+    <p><sup><a href= "#fn1ref" class="note">1. </a><a name="fn1text" id="fn1text"></a>Unknown, “The Church Mission to Deaf-Mutes,” undated, c 1910, 1, Box #45, Archives of the Episcopal Diocese of New York.</sup></p>
+
+    <p><sup><a href= "#fn2ref" class="note">2. </a><a name="fn2text" id="fn2text"></a>“Miscellaneous; Church Mission to Deaf-Mutes,” American Annals of the Deaf 18, no. 2 (April 1873): 129.</sup></p>
+  </div>
+
+  </div>
+  </div>
+
+    <script src="finalbroken.js"></script>
+
+</body>
+</html>
