@@ -3,35 +3,37 @@ var map_height = 425;
 
 var data;
 
-
-
 // Converting TopoJSON to GeoJSON in order to display
 // projection = defines projection, path = generates path
 var projection = d3.geo.albersUsa()
-.scale(850)
-.translate([map_width / 2, map_height / 2]);
+  .scale(850)
+  .translate([map_width / 2, map_height / 2]);
 
 var path = d3.geo.path().projection(projection);
 var radius = d3.scale.sqrt()
   .domain([0,1e2])
   .range([0, 15]);
 
-// Create the SVGs
+// Create the SVGs and creating the zoom function
 var map_svg = d3.select("#map")
 .append("svg")
-.attr("width", map_width)
-.attr("height", map_height);
+  .attr("width", map_width)
+  .attr("height", map_height)
+.append("g")
+  .call(d3.behavior.zoom().scaleExtent([1,8]).on("zoom", zoom))
+.append("g");
 
 queue()
-.defer(d3.json, "state_1870.json")
-.defer(d3.csv, "cleanCMDM.csv")
-.defer(d3.csv, "cleanSchools.csv")
-.await(ready);
+  .defer(d3.json, "state_1870.json")
+  .defer(d3.csv, "cleanCMDM.csv")
+  .defer(d3.csv, "cleanSchools.csv")
+  .await(ready);
 
 function ready(error, state_1870, cleanCMDM, cleanSchools) {
   data = cleanCMDM;
   schools = cleanSchools;
   console.log(state_1870);
+
   map_svg.selectAll(".states")
   .data(topojson.feature(state_1870, state_1870.objects.state_1870).features)
   .enter().append("path")
@@ -42,6 +44,11 @@ function ready(error, state_1870, cleanCMDM, cleanSchools) {
   .datum(topojson.mesh(state_1870, state_1870.objects.state_1870))
   .attr("d", path)
   .attr("class", "border");
+//creating the zoom overlay
+  map_svg.append("rect")
+  .attr("class", "overlay")
+  .attr("width", map_width)
+  .attr("height", map_height);
 
 //Add points for each of the schools
   map_svg.selectAll(".school")
@@ -90,7 +97,7 @@ function ready(error, state_1870, cleanCMDM, cleanSchools) {
     //Hide the tooltip
       d3.select("#tooltip").classed("hidden", true);})
     .attr("class","mission")
-    .attr("transform", function(d) {return "translate(" + projection([d.lon,d.lat]) + ")";});}
+    .attr("transform", function(d) {return "translate(" + projection([d.lon,d.lat]) + ")";})};
 
 
 // Create the slider
@@ -175,9 +182,13 @@ function ready(error, state_1870, cleanCMDM, cleanSchools) {
   d3.rebind(slider, dispatch, "on");
   return slider;
 }
+// calling the zoom function
+function zoom() {
+  map_svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
+
 // redraw points on the map based on the slider values
 d3.select('#slider3').call(d3.slider().on("slide",redraw));
-
 function redraw(evt, value) {
       console.log(value)
       d3.select('#slider3text').text(value);
@@ -190,4 +201,10 @@ function redraw(evt, value) {
        })
         .classed("hidden", false);
   }
+
+
+
+
+
+
 

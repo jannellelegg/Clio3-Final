@@ -56,6 +56,10 @@
 		fill: none;
 		stroke: #4F4F4F;
 		}
+	.overlay {
+		fill:none;
+		pointer-events: all;
+		}
 	.mission{
 		fill: #74AFAD;
 		fill-opacity: .3;
