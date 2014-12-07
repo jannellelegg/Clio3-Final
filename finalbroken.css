@@ -4,8 +4,7 @@
 @import url(http://fonts.googleapis.com/css?family=Niconne|Poiret+One|Goudy+Bookletter+1911);
 
 	body {
-		background-color: #ECECEA;;
-
+		background-color: #ECECEA;
 		}
 	#wrapper {
 		font-size: 100%;
@@ -21,7 +20,7 @@
 		}
 	#headerimage {
 		margin-top: 0px;
-	}
+		}
 	h2 {
 		font-family: 'Goudy Bookletter 1911', serif;
 		font-size: 40px;
@@ -33,7 +32,6 @@
 		font-size: 30px;
 		color: #4F4F4F;
 		}
-	}
 	h4 {
 		font-family: 'Poiret One', serif;
 		font-size:16px;
@@ -69,7 +67,23 @@
 		fill: #D9853B;
 		fill-opacity: 0.5;
 		stroke: #D9853B;
-	}
+		}
+	.freqlegend circle {
+		fill: #74AFAD;
+		fill-opacity: .3;
+		stroke: #74AFAD;
+		}
+	.freqlegend text {
+		fill: #4F4F4F;
+		font-family: 'Poiret One', serif;
+		font-size: 11px;
+		text-anchor: top;
+		}
+	.legend school {
+		fill: #D9853B;
+		fill-opacity: 0.5;
+		stroke: #D9853B;
+		}
 
 /* this styles the tooltip */
 	#tooltip {
@@ -90,12 +104,10 @@
 		-moz-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 		box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 		pointer-events: none;
-		}
-				
+		}		
 	#tooltip.hidden {
 		display: none;
-		}
-				
+		}		
 	#tooltip h4 {
 		margin: 0;
 		font-family: 'Poiret One', serif;
@@ -145,7 +157,7 @@
 /* this styles the bodytext */
 	#bodytext { 
 		margin-top: 5px;
-		margin-left: 50px;
+		margin-left: 100px;
 		line-height: 25px;
 		}
 		

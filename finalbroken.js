@@ -10,6 +10,7 @@ var projection = d3.geo.albersUsa()
   .translate([map_width / 2, map_height / 2]);
 
 var path = d3.geo.path().projection(projection);
+
 var radius = d3.scale.sqrt()
   .domain([0,1e2])
   .range([0, 15]);
@@ -23,6 +24,21 @@ var map_svg = d3.select("#map")
   .call(d3.behavior.zoom().scaleExtent([1,8]).on("zoom", zoom))
 .append("g");
 
+// Create the frequency legend
+var freqlegend = map_svg.append("g")
+	.attr("class", "freqlegend")
+	.attr("transform", "translate(" + (map_width - 70) + "," + (map_height - 50) + ")")
+	.selectAll("g")
+		.data([1, 52])
+	.enter().append("g");
+	freqlegend.append("circle")
+		.attr("cy", function(d) {return -radius(d);})
+		.attr("r", radius);
+	freqlegend.append("text")
+    	.attr("dy", "-3em")
+    	.attr("dx", "-5.5em")
+    	.text("Mission Frequency 1:52");
+
 queue()
   .defer(d3.json, "state_1870.json")
   .defer(d3.csv, "cleanCMDM.csv")
@@ -34,71 +50,72 @@ function ready(error, state_1870, cleanCMDM, cleanSchools) {
   schools = cleanSchools;
   console.log(state_1870);
 
-  map_svg.selectAll(".states")
-  .data(topojson.feature(state_1870, state_1870.objects.state_1870).features)
-  .enter().append("path")
-  .attr("class", function(d) { return "state " + d.id; })
-  .attr("d", path);
+	  map_svg.selectAll(".states")
+	  .data(topojson.feature(state_1870, state_1870.objects.state_1870).features)
+	  .enter().append("path")
+	  .attr("class", function(d) { return "state " + d.id; })
+	  .attr("d", path);
 
-  map_svg.append("path")
-  .datum(topojson.mesh(state_1870, state_1870.objects.state_1870))
-  .attr("d", path)
-  .attr("class", "border");
-//creating the zoom overlay
-  map_svg.append("rect")
-  .attr("class", "overlay")
-  .attr("width", map_width)
-  .attr("height", map_height);
+		  map_svg.append("path")
+		  .datum(topojson.mesh(state_1870, state_1870.objects.state_1870))
+		  .attr("d", path)
+		  .attr("class", "border");
 
-//Add points for each of the schools
-  map_svg.selectAll(".school")
-    .data(cleanSchools)
-    .enter()
-    .append("circle")
-    .attr("r", 3)
+	//creating the zoom overlay
+	  map_svg.append("rect")
+	  .attr("class", "overlay")
+	  .attr("width", map_width)
+	  .attr("height", map_height);
+
+	//Add points for each of the schools
+	  map_svg.selectAll(".school")
+	    .data(cleanSchools)
+	    .enter()
+	    .append("circle")
+	    .attr("r", 3)
     //Add tooltip on mouseover for each circle
-    .on("mouseover", function(d) {   
-      d3.select("#tooltip")
-        //Show the tooltip above where the mouse triggers the event
-        .style("left", (d3.event.pageX) + "px")     
-        .style("top", (d3.event.pageY - 90) + "px")
-        .select("#mission-label")  
-        .html("<strong>" + d.school + "</strong>" + "<br/>" + "location: " + d.location + "<br/>" + "founded: " + d.founded)      
-        //Show the tooltip
-      d3.select("#tooltip").classed("hidden", false);})
-    .on("mouseout", function() {
-        //Hide the tooltip
-        d3.select("#tooltip").classed("hidden", true);})
-    .attr("class","school")
-    .attr("transform", function(d) {
-      console.log(d);
-      return "translate(" + projection([d.lon,d.lat]) + ")";
-    });
+	    .on("mouseover", function(d) {   
+	      d3.select("#tooltip")
+	        //Show the tooltip above where the mouse triggers the event
+	        .style("left", (d3.event.pageX) + "px")     
+	        .style("top", (d3.event.pageY - 90) + "px")
+	        .select("#mission-label")  
+	        .html("<strong>" + d.school + "</strong>" + "<br/>" + "location: " + d.location + "<br/>" + "founded: " + d.founded)      
+	        //Show the tooltip
+	      d3.select("#tooltip").classed("hidden", false);})
+	    .on("mouseout", function() {
+	        //Hide the tooltip
+	        d3.select("#tooltip").classed("hidden", true);})
+	    .attr("class","school")
+	    .attr("transform", function(d) {
+	      console.log(d);
+	      return "translate(" + projection([d.lon,d.lat]) + ")";
+	    });
 
-//Add points for each of the missions
-  map_svg.selectAll(".mission")
-    .data(cleanCMDM)
-    .enter()
-    .append("circle")
-  // define the size of the circle based on stated frequency in CSV:
-    .attr("r", function(d) {return radius(d.frequency)})
-    .on("mouseover", function(d) {   
-    //Add tooltip on mouseover for each circle
-      d3.select("#tooltip")
-      //Show the tooltip above where the mouse triggers the event
-        .style("left", (d3.event.pageX) + "px")     
-        .style("top", (d3.event.pageY - 90) + "px")
-        .select("#mission-label")  
-        .html("<strong>" + d.facility + "</strong>" + "<br/>" + "location: " + d.location + "<br/>" + "frequency: " + d.frequency + "<br/>" + "Church Clergy: " + d.churchClergy + "<br/>" + "CMDM Clergy: " + d.CMDMClergy + "<br/>" + "Notes: " + d.notes)      
-    //Show the tooltip
-      d3.select("#tooltip").classed("hidden", false);
-               })
-    .on("mouseout", function() {
-    //Hide the tooltip
-      d3.select("#tooltip").classed("hidden", true);})
-    .attr("class","mission")
-    .attr("transform", function(d) {return "translate(" + projection([d.lon,d.lat]) + ")";})};
+	//Add points for each of the missions
+	  map_svg.selectAll(".mission")
+	    .data(cleanCMDM)
+	    .enter()
+	    .append("circle")
+	  // define the size of the circle based on stated frequency in CSV:
+	    .attr("r", function(d) {return radius(d.frequency)})
+	    .on("mouseover", function(d) {   
+	    //Add tooltip on mouseover for each circle
+	      d3.select("#tooltip")
+	      //Show the tooltip above where the mouse triggers the event
+	        .style("left", (d3.event.pageX) + "px")     
+	        .style("top", (d3.event.pageY - 90) + "px")
+	        .select("#mission-label")  
+	        .html("<strong>" + d.facility + "</strong>" + "<br/>" + "location: " + d.location + "<br/>" + "frequency: " + d.frequency + "<br/>" + "Church Clergy: " + d.churchClergy + "<br/>" + "CMDM Clergy: " + d.CMDMClergy + "<br/>" + "Notes: " + d.notes)      
+	    //Show the tooltip
+	      d3.select("#tooltip").classed("hidden", false);
+	               })
+	    .on("mouseout", function() {
+	    //Hide the tooltip
+	      d3.select("#tooltip").classed("hidden", true);})
+	    .attr("class","mission")
 
+	    .attr("transform", function(d) {return "translate(" + projection([d.lon,d.lat]) + ")";})};
 
 // Create the slider
   d3.slider = function module() {
@@ -112,7 +129,7 @@ function ready(error, state_1870, cleanCMDM, cleanSchools) {
         orientation = "horizontal",
         axis = false,
         margin = 50,
-        value,
+        value = 1873,
         scale; 
   // Private variables
     var axisScale,
