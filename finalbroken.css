@@ -58,6 +58,10 @@
 		fill:none;
 		pointer-events: all;
 		}
+	.train {
+		fill: none;
+		stroke: #BFBFBE;
+		}
 	.mission{
 		fill: #74AFAD;
 		fill-opacity: .3;

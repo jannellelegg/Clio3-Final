@@ -39,7 +39,7 @@ var freqlegend = map_svg.append("g")
     	.attr("dx", "-5.5em")
     	.text("Mission Frequency 1:52");
 
-// Create the frequency legend
+// Create the legend
 var legend = map_svg.append("g")
 	.attr("class", "legend")
 	.attr("transform", "translate(" + (map_width - 70) + "," + (map_height - 100) + ")")
@@ -56,15 +56,17 @@ var legend = map_svg.append("g")
 
 queue()
   .defer(d3.json, "state_1870.json")
+  .defer(d3.json, "railroads.json")
   .defer(d3.csv, "cleanCMDM.csv")
   .defer(d3.csv, "cleanSchools.csv")
   .await(ready);
 
-function ready(error, state_1870, cleanCMDM, cleanSchools) {
+function ready(error, state_1870, railroads, cleanCMDM, cleanSchools) {
   data = cleanCMDM;
   schools = cleanSchools;
   console.log(state_1870);
 
+//state map
 	  map_svg.selectAll(".states")
 	  .data(topojson.feature(state_1870, state_1870.objects.state_1870).features)
 	  .enter().append("path")
@@ -75,6 +77,18 @@ function ready(error, state_1870, cleanCMDM, cleanSchools) {
 		  .datum(topojson.mesh(state_1870, state_1870.objects.state_1870))
 		  .attr("d", path)
 		  .attr("class", "border");
+
+//adding train map
+    map_svg.selectAll(".train")
+    .data(topojson.feature(railroads, railroads.objects.RR1870WGS84).features)
+    .enter().append("path")
+    .attr("class", function(d) { return "state " + d.id; })
+    .attr("d", path);
+
+      map_svg.append("path")
+      .datum(topojson.mesh(railroads, railroads.objects.RR1870WGS84))
+      .attr("d", path)
+      .attr("class", "train");
 
 	//creating the zoom overlay
 	  map_svg.append("rect")
