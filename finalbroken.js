@@ -39,6 +39,21 @@ var freqlegend = map_svg.append("g")
     	.attr("dx", "-5.5em")
     	.text("Mission Frequency 1:52");
 
+// Create the frequency legend
+var legend = map_svg.append("g")
+	.attr("class", "legend")
+	.attr("transform", "translate(" + (map_width - 70) + "," + (map_height - 100) + ")")
+	.selectAll("g")
+		.data([5])
+	.enter().append("g");
+	legend.append("circle")
+		.attr("cy", function(d) {return -radius(d);})
+		.attr("r", radius);
+	legend.append("text")
+    	.attr("dy", "-1.5em")
+    	.attr("dx", "-2.5em")
+    	.text("Deaf Schools");
+
 queue()
   .defer(d3.json, "state_1870.json")
   .defer(d3.csv, "cleanCMDM.csv")

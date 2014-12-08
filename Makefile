@@ -1,3 +1,2 @@
-state_1870.json : state_1870.shp
-	@echo "Works"
-	topojson -o state_1870.json -- state_1870.shp
+railroads.topojson: RR1870WGS84.shp
+	topojson -o railroads.topojson RR1870WGS84.shp

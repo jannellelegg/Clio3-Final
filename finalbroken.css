@@ -79,10 +79,16 @@
 		font-size: 11px;
 		text-anchor: top;
 		}
-	.legend school {
+	.legend circle {
 		fill: #D9853B;
 		fill-opacity: 0.5;
 		stroke: #D9853B;
+		}
+	.legend text {
+		fill: #4F4F4F;
+		font-family: 'Poiret One', serif;
+		font-size: 11px;
+		text-anchor: top;
 		}
 
 /* this styles the tooltip */
