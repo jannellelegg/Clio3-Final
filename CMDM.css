@@ -62,20 +62,35 @@
 		fill: none;
 		stroke: #BFBFBE;
 		}
-	.mission{
+	/*.mission{
 		fill: #74AFAD;
 		fill-opacity: .3;
 		stroke: #74AFAD;
-		}
+		}*/
 	.school{
 		fill: #D9853B;
 		fill-opacity: 0.5;
 		stroke: #D9853B;
 		}
 	.freqlegend circle {
-		fill: #74AFAD;
+		fill: #80BEBC;
 		fill-opacity: .3;
-		stroke: #74AFAD;
+		stroke: #80BEBC;
+		}
+	.freqlegend circleB {
+		fill: #669897;
+		fill-opacity: .3;
+		stroke: #669897;
+		}	
+	.freqlegend circleC {
+		fill: #578281;
+		fill-opacity: .3;
+		stroke: #578281;
+		}
+	.freqlegend circleD {
+		fill: #3B5857;
+		fill-opacity: .3;
+		stroke: #3B5857;
 		}
 	.freqlegend text {
 		fill: #4F4F4F;

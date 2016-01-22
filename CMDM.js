@@ -11,9 +11,20 @@ var projection = d3.geo.albersUsa()
 
 var path = d3.geo.path().projection(projection);
 
-var radius = d3.scale.sqrt()
-  .domain([0,1e2])
-  .range([0, 15]);
+//define linear for horizontal linear scale legend
+/*var linear = d3.scale.linear()
+	.domain([1,52])
+	.range(['#80BEBC','#3B5857']);*/
+
+//define colorScale for frequency of services for mission circles
+var colorScale = d3.scale.linear()
+  .domain([1,52])
+  .range(['#80BEBC','#3B5857']);
+
+var color = d3.scale.ordinal()
+	.domain (["1", "52"])
+	.range(['#80BEBC','#3B5857']);
+
 
 // Create the SVGs and creating the zoom function
 var map_svg = d3.select("#map")
@@ -24,35 +35,69 @@ var map_svg = d3.select("#map")
   .call(d3.behavior.zoom().scaleExtent([1,8]).on("zoom", zoom))
 .append("g");
 
-// Create the frequency legend
-var freqlegend = map_svg.append("g")
-	.attr("class", "freqlegend")
-	.attr("transform", "translate(" + (map_width - 70) + "," + (map_height - 50) + ")")
-	.selectAll("g")
-		.data([1, 52])
-	.enter().append("g");
-	freqlegend.append("circle")
-		.attr("cy", function(d) {return -radius(d);})
-		.attr("r", radius);
-	freqlegend.append("text")
-    	.attr("dy", "-3em")
-    	.attr("dx", "-5.5em")
-    	.text("Mission Frequency 1:52");
+// Create the frequency legend -- original
+/*var freqlegend = map_svg.append("g")
+  .attr("class", "freqlegend")
+  .attr("transform", "translate(" + (map_width - 70) + "," + (map_height - 50) + ")")
+  .selectAll("g")
+    .data([colorScale])
+  .enter().append("g");
+  freqlegend.append("circle")
+    .attr("cy", function(d) {return -radius(d);})
+    .attr("r", radius);
+  freqlegend.append("text")
+      .attr("dy", "-3em")
+      .attr("dx", "-5.5em")
+      .text("Mission Frequency 1:52");*/
 
-// Create the legend
+//define linear scale legend -- failed this part
+// var freqlegend = map_svg.append("g")
+//   .attr("class", "freqlegend")
+//   .attr("transform", "translate(" + (width - 190) + "," + 200 + ")");
+
+/*freqlegend.append("text")
+ 	  .attr("dy", "-1.5em")
+      .attr("dx", "-3.5em")
+      .text("Mission Frequency 0-52");
+
+var freqlegendField = freqlegend.append("g")
+  .attr("transform", "translate(0,20)")
+  .append("text");
+
+var freqlegendColors = legend.append("g")
+  .attr("class","legend-colors")
+  .attr("transform", "translate(10,40)");*/
+
+
+//this works, but only one circle.
+var freqlegend = map_svg.append("g")
+  .attr("class", "freqlegend")
+  .attr("transform", "translate(" + (map_width - 610) + "," + (map_height - 50) + ")")
+  .selectAll("g")
+    .data([4])
+  .enter().append("g");
+  freqlegend.append("circle")
+  	.attr("r", 4)
+    .attr("cy", function(d) {return -colorScale(d);})
+  freqlegend.append("text")
+      .attr("dy", "-1.5em")
+      .attr("dx", "-3.5em")
+      .text("Mission Frequency 1:52");
+
+//Create the legend
 var legend = map_svg.append("g")
 	.attr("class", "legend")
-	.attr("transform", "translate(" + (map_width - 70) + "," + (map_height - 100) + ")")
+	.attr("transform", "translate(" + (map_width - 610) + "," + (map_height - 5) + ")")
 	.selectAll("g")
-		.data([5])
+		.data([4])
 	.enter().append("g");
 	legend.append("circle")
-		.attr("cy", function(d) {return -radius(d);})
-		.attr("r", radius);
+		.attr("r", 4);
 	legend.append("text")
-    	.attr("dy", "-1.5em")
-    	.attr("dx", "-2.5em")
-    	.text("Deaf Schools");
+      .attr("dy", "-1em")
+      .attr("dx", "-5em")
+    	.text("Residential Deaf School");
+
 
 queue()
   .defer(d3.json, "state_1870.json")
@@ -101,7 +146,7 @@ function ready(error, state_1870, railroads, cleanCMDM, cleanSchools) {
 	    .data(cleanSchools)
 	    .enter()
 	    .append("circle")
-	    .attr("r", 3)
+	    .attr("r", 4)
     //Add tooltip on mouseover for each circle
 	    .on("mouseover", function(d) {   
 	      d3.select("#tooltip")
@@ -126,8 +171,14 @@ function ready(error, state_1870, railroads, cleanCMDM, cleanSchools) {
 	    .data(cleanCMDM)
 	    .enter()
 	    .append("circle")
-	  // define the size of the circle based on stated frequency in CSV:
-	    .attr("r", function(d) {return radius(d.frequency)})
+    //define the size of the circle
+      .attr('r', 3)
+    //style the circle to reflect the frequency of services offered
+      .style('stroke', function(d) {return colorScale(d.frequency);})
+      .style('fill-opacity', .7)
+      .style('fill', function(d) {return colorScale(d.frequency);})
+      
+      
 	    .on("mouseover", function(d) {   
 	    //Add tooltip on mouseover for each circle
 	      d3.select("#tooltip")
