@@ -12,18 +12,18 @@ var projection = d3.geo.albersUsa()
 var path = d3.geo.path().projection(projection);
 
 //define linear for horizontal linear scale legend
-/*var linear = d3.scale.linear()
-	.domain([1,52])
-	.range(['#80BEBC','#3B5857']);*/
+var linear = d3.scale.linear()
+  .domain([1,52])
+  .range(['#80BEBC','#3B5857']);
 
 //define colorScale for frequency of services for mission circles
 var colorScale = d3.scale.linear()
   .domain([1,52])
   .range(['#80BEBC','#3B5857']);
 
-var color = d3.scale.ordinal()
+/*var color = d3.scale.ordinal()
 	.domain (["1", "52"])
-	.range(['#80BEBC','#3B5857']);
+	.range(['#80BEBC','#3B5857']);*/
 
 
 // Create the SVGs and creating the zoom function
@@ -51,26 +51,21 @@ var map_svg = d3.select("#map")
       .text("Mission Frequency 1:52");*/
 
 //define linear scale legend -- failed this part
-// var freqlegend = map_svg.append("g")
-//   .attr("class", "freqlegend")
-//   .attr("transform", "translate(" + (width - 190) + "," + 200 + ")");
+map_svg.append("g")
+  .attr("class", "legendLinear")
+  .attr("transform", "translate(20,20)");
 
-/*freqlegend.append("text")
- 	  .attr("dy", "-1.5em")
-      .attr("dx", "-3.5em")
-      .text("Mission Frequency 0-52");
+var legendLinear = d3.legend.color()
+.shapeWidth(30)
+.orient('horizontal')
+.scale(linear);
 
-var freqlegendField = freqlegend.append("g")
-  .attr("transform", "translate(0,20)")
-  .append("text");
-
-var freqlegendColors = legend.append("g")
-  .attr("class","legend-colors")
-  .attr("transform", "translate(10,40)");*/
+map_svg.select('.legendLinear')
+.call(legendLinear);
 
 
 //this works, but only one circle.
-var freqlegend = map_svg.append("g")
+/*var freqlegend = map_svg.append("g")
   .attr("class", "freqlegend")
   .attr("transform", "translate(" + (map_width - 610) + "," + (map_height - 50) + ")")
   .selectAll("g")
@@ -82,7 +77,7 @@ var freqlegend = map_svg.append("g")
   freqlegend.append("text")
       .attr("dy", "-1.5em")
       .attr("dx", "-3.5em")
-      .text("Mission Frequency 1:52");
+      .text("Mission Frequency 1:52");*/
 
 //Create the legend
 var legend = map_svg.append("g")
