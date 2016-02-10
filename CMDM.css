@@ -62,41 +62,20 @@
 		fill: none;
 		stroke: #BFBFBE;
 		}
-	/*.mission{
-		fill: #74AFAD;
-		fill-opacity: .3;
-		stroke: #74AFAD;
-		}*/
 	.school{
 		fill: #D9853B;
 		fill-opacity: 0.5;
 		stroke: #D9853B;
 		}
-	.freqlegend circle {
-		fill: #80BEBC;
-		fill-opacity: .3;
-		stroke: #80BEBC;
+	.freqLegend text {
+		fill: #4F4F4F;
+		font-family: 'Poiret One', serif;
+		font-size: 15px;
 		}
-	.freqlegend circleB {
-		fill: #669897;
-		fill-opacity: .3;
-		stroke: #669897;
-		}	
-	.freqlegend circleC {
-		fill: #578281;
-		fill-opacity: .3;
-		stroke: #578281;
-		}
-	.freqlegend circleD {
-		fill: #3B5857;
-		fill-opacity: .3;
-		stroke: #3B5857;
-		}
-	.freqlegend text {
+	.freqLegend label {
 		fill: #4F4F4F;
 		font-family: 'Poiret One', serif;
 		font-size: 11px;
-		text-anchor: top;
 		}
 	.legend circle {
 		fill: #D9853B;
@@ -106,7 +85,7 @@
 	.legend text {
 		fill: #4F4F4F;
 		font-family: 'Poiret One', serif;
-		font-size: 11px;
+		font-size: 14px;
 		text-anchor: top;
 		}
 

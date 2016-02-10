@@ -21,10 +21,6 @@ var colorScale = d3.scale.linear()
   .domain([1,52])
   .range(['#80BEBC','#3B5857']);
 
-/*var color = d3.scale.ordinal()
-	.domain (["1", "52"])
-	.range(['#80BEBC','#3B5857']);*/
-
 
 // Create the SVGs and creating the zoom function
 var map_svg = d3.select("#map")
@@ -35,63 +31,38 @@ var map_svg = d3.select("#map")
   .call(d3.behavior.zoom().scaleExtent([1,8]).on("zoom", zoom))
 .append("g");
 
-// Create the frequency legend -- original
-/*var freqlegend = map_svg.append("g")
-  .attr("class", "freqlegend")
-  .attr("transform", "translate(" + (map_width - 70) + "," + (map_height - 50) + ")")
-  .selectAll("g")
-    .data([colorScale])
-  .enter().append("g");
-  freqlegend.append("circle")
-    .attr("cy", function(d) {return -radius(d);})
-    .attr("r", radius);
-  freqlegend.append("text")
-      .attr("dy", "-3em")
-      .attr("dx", "-5.5em")
-      .text("Mission Frequency 1:52");*/
 
-//define linear scale legend -- failed this part
+//define linear scale legend 
 map_svg.append("g")
-  .attr("class", "legendLinear")
-  .attr("transform", "translate(20,20)");
+  .attr("class", "freqLegend")
+  .attr("transform", "translate(10,310)");
 
-var legendLinear = d3.legend.color()
-.shapeWidth(30)
+var freqLegend = d3.legend.color()
+.shapeWidth(25)
+.cells([1,4,12,21,52])
 .orient('horizontal')
+.title("Mission Frequency:")
+.labels(["1", " ", " ", " ", "52"])
 .scale(linear);
 
-map_svg.select('.legendLinear')
-.call(legendLinear);
+map_svg.select('.freqLegend')
+.call(freqLegend);
 
 
-//this works, but only one circle.
-/*var freqlegend = map_svg.append("g")
-  .attr("class", "freqlegend")
-  .attr("transform", "translate(" + (map_width - 610) + "," + (map_height - 50) + ")")
-  .selectAll("g")
-    .data([4])
-  .enter().append("g");
-  freqlegend.append("circle")
-  	.attr("r", 4)
-    .attr("cy", function(d) {return -colorScale(d);})
-  freqlegend.append("text")
-      .attr("dy", "-1.5em")
-      .attr("dx", "-3.5em")
-      .text("Mission Frequency 1:52");*/
 
-//Create the legend
+//Create the school legend
 var legend = map_svg.append("g")
 	.attr("class", "legend")
-	.attr("transform", "translate(" + (map_width - 610) + "," + (map_height - 5) + ")")
+	.attr("transform", "translate(80,420)")
 	.selectAll("g")
 		.data([4])
 	.enter().append("g");
 	legend.append("circle")
 		.attr("r", 4);
 	legend.append("text")
-      .attr("dy", "-1em")
+      .attr("dy", "-1.5em")
       .attr("dx", "-5em")
-    	.text("Residential Deaf School");
+    	.text("Residential Deaf Schools:");
 
 
 queue()
